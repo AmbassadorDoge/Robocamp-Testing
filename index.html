@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WHS Robotics Tournament Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    header {
+      background-color: #111;
+      padding: 1em;
+      text-align: center;
+      border-bottom: 3px solid yellow;
+    }
+    header img {
+      height: 60px;
+      vertical-align: middle;
+    }
+    header h1 {
+      display: inline;
+      margin-left: 1em;
+      color: yellow;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1fr;
+      grid-gap: 1em;
+      padding: 1em;
+    }
+    section {
+      background-color: #111;
+      padding: 1em;
+      border-radius: 10px;
+    }
+    .timer {
+      font-size: 3em;
+      text-align: center;
+      margin: 1em 0;
+      color: yellow;
+    }
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      color: white;
+    }
+    table, th, td {
+      border: 1px solid #333;
+      padding: 0.5em;
+    }
+    th {
+      background-color: yellow;
+      color: black;
+    }
+    .match {
+      font-size: 1.2em;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="FormBanner@2x.png" alt="WHS Robotics Logo" />
+    <h1>WHS Robotics Tournament Dashboard</h1>
+  </header>
+  <main>
+    <section>
+      <h2>Current Match</h2>
+      <div class="match" id="match-info">Team 1 vs Team 2 - Match 1</div>
+      <div class="timer" id="timer">02:30</div>
+    </section>
+    <section>
+      <h2>Leaderboard</h2>
+      <table>
+        <thead>
+          <tr><th>Team</th><th>Score 1</th><th>Score 2</th><th>Score 3</th><th>Score 4</th><th>Score 5</th></tr>
+        </thead>
+        <tbody id="leaderboard">
+          <tr><td>Team 1</td><td>100</td><td>111</td><td>234</td><td>0</td><td>0</td></tr>
+        </tbody>
+      </table>
+    </section>
+    <section>
+      <h2>Live Stream</h2>
+      <iframe src="https://www.youtube.com/embed/live_stream?channel=[YOUR_CHANNEL_ID]" allowfullscreen></iframe>
+    </section>
+  </main>
+  <script>
+    let timeLeft = 150;
+    const timerEl = document.getElementById('timer');
+    function updateTimer() {
+      let minutes = Math.floor(timeLeft / 60);
+      let seconds = timeLeft % 60;
+      timerEl.textContent = `${minutes.toString().padStart(2,'0')}:${seconds.toString().padStart(2,'0')}`;
+      if (timeLeft > 0) timeLeft--;
+    }
+    setInterval(updateTimer, 1000);
+  </script>
+</body>
+</html>
