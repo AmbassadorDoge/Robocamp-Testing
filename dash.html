@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLL Dashboard - WHS Robotics</title>
+  <style>
+    body {
+      background-color: #000;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      overflow: hidden;
+    }
+    header {
+      background-color: #111;
+      color: yellow;
+      width: 100%;
+      padding: 1em;
+      text-align: center;
+      font-size: 2em;
+    }
+    #nowplaying {
+      font-size: 1.5em;
+      padding: 1em;
+      text-align: center;
+      background-color: #111;
+      color: white;
+    }
+    .highlight {
+      color: yellow;
+      font-weight: bold;
+    }
+    .main-container {
+      display: flex;
+      flex-direction: row;
+      height: calc(100vh - 300px); /* increased space for leaderboard */
+      width: 100vw;
+      box-sizing: border-box;
+      gap: 20px;
+      padding: 10px 20px;
+    }
+    .left-panel {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      height: 100%;
+    }
+    .left-panel iframe {
+      flex: 1;
+      border: 2px solid yellow;
+      border-radius: 8px;
+    }
+    .right-panel {
+      flex: 2;
+      height: 100%;
+    }
+    .right-panel iframe {
+      width: 100%;
+      height: 100%;
+      border: 2px solid yellow;
+      border-radius: 8px;
+    }
+    .leaderboard {
+      width: 100%;
+      height: 120px; /* made taller */
+      overflow: hidden;
+      background-color: #111;
+      border-top: 2px solid yellow;
+      border-bottom: 2px solid yellow;
+    }
+    .leaderboard iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header>Whitney Robotics - FLL Dashboard</header>
+
+  <!-- Now Playing / Queuing Status -->
+  <div id="nowplaying">
+    Now Queuing: <span class="highlight" id="queueTeam">Team TBD</span> | 
+    Now Playing: <span class="highlight" id="playTeam">Team TBD</span>
+  </div>
+
+  <div class="main-container">
+    <!-- Left Panel: Timer and Schedule -->
+    <div class="left-panel">
+      <iframe src="https://stagetimer.io/r/FQUGTXGH" allowfullscreen></iframe>
+      <iframe src="https://docs.google.com/spreadsheets/d/e/YOUR_EMBED_URL/pubhtml?widget=true&amp;headers=false"></iframe>
+    </div>
+
+    <!-- Right Panel: Camera Feed -->
+    <div class="right-panel">
+      <iframe src="http://YOUR_CAMERA_FEED_URL.local" allowfullscreen></iframe>
+    </div>
+  </div>
+
+  <!-- Leaderboard Bar -->
+  <div class="leaderboard">
+    <iframe src="https://docs.google.com/spreadsheets/d/e/YOUR_LEADERBOARD_EMBED_URL/pubhtml?widget=true&amp;headers=false"></iframe>
+  </div>
+
+  <script>
+    const QUEUE_API = "https://jsonblob.com/api/jsonBlob/1379677093855682560";
+
+    async function refreshNowPlaying() {
+      try {
+        const response = await fetch(QUEUE_API);
+        const data = await response.json();
+        document.getElementById("queueTeam").textContent = data.queue || "TBD";
+        document.getElementById("playTeam").textContent = data.play || "TBD";
+      } catch (e) {
+        console.error("Failed to fetch now playing info:", e);
+      }
+    }
+
+    setInterval(refreshNowPlaying, 2000);
+    refreshNowPlaying();
+  </script>
+</body>
+</html>
